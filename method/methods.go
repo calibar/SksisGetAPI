@@ -17,6 +17,9 @@ type Sksoil_schemaHandler struct {
 var Url="https://sksoils.usask.ca/api/v2/sksoil/"
 var apiKey="0c6c4a2baf6ac608f2ef74354b1bbc2651a05675000983a397b07a5df96b1eac"
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+}
 func generateGetRequest(url string)*http.Request  {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -40,7 +43,7 @@ func getBody(url string)[]byte{
 	return body
 }
 func SksoilHandler(w http.ResponseWriter,r *http.Request){
-
+	enableCors(&w)
 	if r.Method=="GET"{
 		body:=getBody(Url)
 		w.Write(body)
@@ -48,6 +51,7 @@ func SksoilHandler(w http.ResponseWriter,r *http.Request){
 
 }
 func SkSchemaHandler(w http.ResponseWriter,r *http.Request){
+	enableCors(&w)
 	following := r.URL.Path[len("/sksoil/_schema/"):]
 	thisUrl:=Url+"_schema/"
 	if following== ""{
@@ -65,6 +69,7 @@ func SkSchemaHandler(w http.ResponseWriter,r *http.Request){
 
 }
 func SkTableHandler(w http.ResponseWriter,r *http.Request)  {
+	enableCors(&w)
 	following := r.URL.Path[len("/sksoil/_table/"):]
 	thisUrl:=Url+"_table/"
 	if following== ""{
@@ -81,6 +86,7 @@ func SkTableHandler(w http.ResponseWriter,r *http.Request)  {
 	}
 }
 func SkProcHandler(w http.ResponseWriter,r *http.Request)   {
+	enableCors(&w)
 	following := r.URL.Path[len("/sksoil/_proc/"):]
 	thisUrl:=Url+"_proc/"
 	if following== ""{
@@ -97,6 +103,7 @@ func SkProcHandler(w http.ResponseWriter,r *http.Request)   {
 	}
 }
 func SkFuncHandler(w http.ResponseWriter,r *http.Request)   {
+	enableCors(&w)
 	following := r.URL.Path[len("/sksoil/_func/"):]
 	thisUrl:=Url+"_func/"
 	if following== ""{
